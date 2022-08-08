@@ -10,13 +10,44 @@
 </div>
 <div class = 'container-rim'>
     <div class = "row">
-        <h2> {{post.title}}. {{post.content}} </h2>
+        <h2 class = "col-12"> {{post.title}} </h2>
+        <h6 class = "text-muted col-12"> {{post.hook_text}} </h6>
     </div>
     <div class = "row">
         <p> {{post.updated_at}} </p><br>
     </div>
+    <div class = "row">   
+        {% if post.head_image %}
+        <img class = "img-fluid rounded" src = "{{post.head_image.url}}" alt = "{{post.title}} head_image"> 
+
+        {% else %}
+        <img class = "img-fluid rounded" src = "https://picsum.photos/seed/{{post.id}}/800/400" alt = "random_image"> 
+
+        {% endif %}
+
+    </div>
+
     <div class = "row">
-        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus lacinia urna, pharetra lacinia mauris interdum nec. Mauris quis quam tempus quam bibendum eleifend vel sed diam. Donec mauris mauris, commodo a quam ac, ornare vestibulum ante. Praesent et vulputate orci. Nullam nisi elit, tempus in nunc ac, vestibulum consectetur massa. Donec vitae mollis est. Nullam at nisl ipsum. Nulla at tincidunt tortor, in interdum urna. Vestibulum et magna vitae elit efficitur ultricies. Ut ac nulla vitae leo congue imperdiet. </p><br>
+        {% if post.file_upload %}
+        <p><b> 파일 다운로드: &nbsp; </b></p>
+        <a href = "{{ post.file_upload.url }}" class = "btn btn-design" role = "button" download >
+            
+
+            {% if post.get_file_ext == 'csv' %}
+            <i class="fa-solid fa-file-csv"></i>
+            {% elif post.get_file_ext == 'excel' %}
+            <i class="fa-solid fa-file-excel"></i>
+            {% elif post.get_file_ext == 'doc' %}
+            <i class="fa-solid fa-file-word"></i>
+            {% else %}
+            <i class="fa-solid fa-file"></i>
+            {% endif %}
+            &nbsp; {{ post.get_file_name }}
+        </a>
+        {% endif %}
+    </div>    
+    <div class = "row">   
+        <p>{{post.content}}</p><br>
     </div>
 </div>
 
