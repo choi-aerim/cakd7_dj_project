@@ -1,135 +1,44 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <link rel = 'stylesheet' href = "{% static 'blog/bootstrap/bootstrap.min.css'%}" media = 'screen'>
-    <title>Document</title>
-    <style>
-        body{
-            margin: 0; padding: 0;
-        }
-        a{
-            text-decoration: none;
-            color: black;
-        }
-        #nav-bar{
-            position: fixed;
-            left: 0; right: 0; top: 0;    
-            height: 50px;    
-            font-weight: 600;
-            font-size: large;
-            background-color: white;
-        }
-        #nav-bar a{
-            margin: 0 20px;
-            text-decoration: none;
-            color: gray;
-        }
-        #nav-bar a:hover{
-            color: black;
-            font-size: large;
-        }
-        .container-rim{
-            margin: 0 auto;
-            width: 95%;
-        }
-        .container-rim .row{
-            margin: 50px;
-        }
-        .card {
-            width: 100%;
-            margin-bottom: 50px;
-        }
-        .card-footer{
-            background-color: ivory;
-            height: 50px;
-        }
-        .center{ 
-            text-align: center;
-        }
-        .htag-line{
-            border-bottom: 3px solid rgba(201, 243, 166, 0.672);
-            border-left: 15px solid rgba(201, 243, 166, 0.672);
-            line-height: 200%;
-            width: 100%;
-            padding: 0 20px;    
-        }
-        .htag-shadow1{
-            /* text-shadow: 1px 1px 1px rgb(162, 243, 95); */
-            /* color: rgba(201, 243, 166, 0.968); */
-            text-shadow: 2px 1px 1px rgba(128, 128, 128, 0.758);
-            color: black;
-            font-weight: 600;
-        }
-        .htag-shadow2{
-            text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.758);
-            border-radius: 10px 0;
-            color: gray;
-        }
-        .card{
-            border-color: rgba(0, 128, 0, 0);
-        }
-        .btn-design{
-            background-color:  rgba(201, 243, 166, 0.852);
-        }
-        .btn-design:hover{
-            border: 2px solid gray;
-        }
-        #footer{
-        bottom: 0; right:0; left:0;
-        margin-top: 10px;
-        text-align: center;
-        font-weight: 500;
-        color: rgba(128, 128, 128, 0.783);
-        }
-    </style>
-</head>
-<body>
-    <div id = 'nav-bar'>
-        <a href = '/landing/'> Home </a>
-        <a href = '/about_me/'> About Me</a>
-        <a href = '/blog/'> Blog </a>
-    </div>
-    <div class = 'container-rim'>
-        <div class = "row">
-            <h1 class = 'htag-shadow1'> Blog </h1>
-        </div>
-        <div class = "row">      
-            <div class = "col-9">
-                <div class = "row">
-                    <h3 class = 'htag-line htag-shadow2'> Mini Project </h3>
-                </div>
-                <div class = "row">
+{% extends 'blog/base.html' %}
+{% block main_area %}
 
-                    {% for p in post_list %}
-                    <div class = "card"> 
-                        <img src="" class="card-img-top">
-                        <div class = "card-body">
-                            <p class = "card-title"><a href = "{{p.get_absolute_url}}"><b> {{p.title}}</b> </a></p>
-                            <p class = "card-text"> {{p.content}} </p>
-                            <a href="{{p.get_absolute_url}}" class="btn btn-design">Read More</a>
-                        </div>
-                        <div class = "card-footer">
-                                
-                            <p> {{p.created_at}} </p>
-                        </div>
+<div class = 'container-rim'>
+    <div class = "row">
+        <h1 class = 'htag-shadow1'> Blog </h1>
+    </div>
+    <div class = "row">      
+        <div class = "col-9">
+            <div class = "row">
+                <h3 class = 'htag-line htag-shadow2'> Mini Project </h3>
+            </div>
+            <div class = "row">
+
+                {% for p in post_list %}
+                <div class = "card"> 
+                    <img class="card-img-top" src="{{ p.head_image.url }}" alt = "Card image cap">
+                    <div class = "card-body">
+                        <p class = "card-title"><a href = "{{p.get_absolute_url}}"><b> {{p.title}}</b> </a></p>
+                        <p class = "card-text"> {{p.content}} </p>
+                        <a href="{{p.get_absolute_url}}" class="btn btn-design">Read More</a>
                     </div>
-                    {% endfor %}
+                    <div class = "card-footer">
+                            
+                        <p> {{p.created_at}} </p>
+                    </div>
+                </div>
+                {% endfor %}
 
-                </div>
-                <div class = "row">
-                    <h3 class = 'htag-line htag-shadow2'> Project </h3>
-                </div>
             </div>
-            <div class = "col-3">
-                <div class = "row">
-                    <h3> Search Category </h3>
-                </div>
+            <div class = "row">
+                <h3 class = 'htag-line htag-shadow2'> Project </h3>
+            </div>
+        </div>
+        <div class = "col-3">
+            <div class = "row">
+                <h3> Search Category </h3>
             </div>
         </div>
     </div>
-    <div id = 'footer'>
-        <p>Copyright aErImChOi - 2022 </p>
-    </div> 
-</body>
-</html>
+</div>
+
+{% endblock %}
+

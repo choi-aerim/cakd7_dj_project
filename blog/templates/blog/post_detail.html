@@ -1,60 +1,24 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
 
-<head>
-    <link rel = 'stylesheet' href = "{% static 'blog/bootstrap/bootstrap.min.css'%}" media = 'screen'>
-    <title>Blog</title>
-    <style>
-        body{
-            margin: 0; padding: 0;
-        }
-        a{
-            text-decoration: none;
-            color: black;
-        }
-        #nav-bar{
-            position: fixed;
-            left: 0; right: 0; top: 0;    
-            height: 50px;    
-            font-weight: 600;
-            font-size: large;
-            background-color: white;
-        }
-        #nav-bar a{
-            margin: 0 20px;
-            text-decoration: none;
-            color: gray;
-        }
-        #nav-bar a:hover{
-            color: black;
-            font-size: large;
-        }
-        .container-rim{
-            margin: 0 auto;
-            width: 95%;
-        }
-        .container-rim .row{
-            margin: 50px;
-        }
-    </style>
-</head>
-<body>
-    <div id = 'nav-bar'>
-        <a id ='nav-a' href = '/landing/'> Home </a>
-        <a id ='nav-a' href = '/about_me/'> About Me</a>
-        <a id ='nav-a' href = '/blog/'> Blog </a>
+{% extends 'blog/base.html' %}
+{% block head_title%} {{post.title}} - Blog {% endblock %}
+{% block main_area %}
+
+<div id = 'nav-bar'>
+    <a id ='nav-a' href = '/landing/'> Home </a>
+    <a id ='nav-a' href = '/about_me/'> About Me</a>
+    <a id ='nav-a' href = '/blog/'> Blog </a>
+</div>
+<div class = 'container-rim'>
+    <div class = "row">
+        <h2> {{post.title}}. {{post.content}} </h2>
     </div>
-    <div class = 'container-rim'>
-        <div class = "row">
-            <h2> {{post.title}}. {{post.content}} </h2>
-        </div>
-        <div class = "row">
-            <p> {{post.updated_at}} </p><br>
-        </div>
-        <div class = "row">
-            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus lacinia urna, pharetra lacinia mauris interdum nec. Mauris quis quam tempus quam bibendum eleifend vel sed diam. Donec mauris mauris, commodo a quam ac, ornare vestibulum ante. Praesent et vulputate orci. Nullam nisi elit, tempus in nunc ac, vestibulum consectetur massa. Donec vitae mollis est. Nullam at nisl ipsum. Nulla at tincidunt tortor, in interdum urna. Vestibulum et magna vitae elit efficitur ultricies. Ut ac nulla vitae leo congue imperdiet. </p><br>
-        </div>
+    <div class = "row">
+        <p> {{post.updated_at}} </p><br>
     </div>
-</body>
-</html>
+    <div class = "row">
+        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus lacinia urna, pharetra lacinia mauris interdum nec. Mauris quis quam tempus quam bibendum eleifend vel sed diam. Donec mauris mauris, commodo a quam ac, ornare vestibulum ante. Praesent et vulputate orci. Nullam nisi elit, tempus in nunc ac, vestibulum consectetur massa. Donec vitae mollis est. Nullam at nisl ipsum. Nulla at tincidunt tortor, in interdum urna. Vestibulum et magna vitae elit efficitur ultricies. Ut ac nulla vitae leo congue imperdiet. </p><br>
+    </div>
+</div>
+
+{% endblock %}
+
