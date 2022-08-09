@@ -6,7 +6,7 @@
         <h1 class = 'htag-shadow1'> Blog </h1>
     </div>
     <div class = "row">      
-        <div class = "col-9">
+        <div class = "col-8">
             <div class = "row">
                 <h3 class = 'htag-line htag-shadow2'> Mini Project </h3>
             </div>
@@ -22,18 +22,17 @@
                     {% endif %}
 
                     <div class = "card-body">
-                        <p class = "card-title"><a href = "{{p.get_absolute_url}}"><b> {{p.title}}</b> </a></p>
+                        <h3 class = "card-title"><a href = "{{p.get_absolute_url}}"><b> {{p.title}}</b> </a></h3>
                         
                         {% if p.hook_text %}
-                            <h5 class = "text-muted"> {{p.hook_text}} </h5>
+                            <p class = "text-muted"> {{p.hook_text}} </p>
                         {% endif %}
 
                         <p class = "card-text"> {{p.content| truncatewords:45}} </p>
                         <a href="{{p.get_absolute_url}}" class="btn btn-design">Read More</a>
                     </div>
-                    <div class = "card-footer">
-                            
-                        <p> {{p.created_at}} </p>
+                    <div class = "card-footer">        
+                        <p> <b>{{p.created_at}}</b> by {{p.author | upper}} </p>
                     </div>
                 </div>
                 {% endfor %}
@@ -43,9 +42,18 @@
                 <h3 class = 'htag-line htag-shadow2'> Project </h3>
             </div>
         </div>
-        <div class = "col-3">
+        <div class = "col-4">
             <div class = "row">
-                <h3> Search Category </h3>
+                <div class = "card card-design">
+                    <h5 class = "card-header  card-pdesign"> Search Category <h5>
+                    <div class = 'card-body'>
+                        <a href = "#" class = "card-link">a</a>
+                        <a href = "#" class = "card-link">b</a>
+                        <a href = "#" class = "card-link">c</a>
+                        <a href = "#" class = "card-link">d</a>
+                        <a href = "#" class = "card-link">e</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
