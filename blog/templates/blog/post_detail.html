@@ -3,18 +3,19 @@
 {% block head_title%} {{post.title}} - Blog {% endblock %}
 {% block main_area %}
 
-<div id = 'nav-bar'>
-    <a id ='nav-a' href = '/landing/'> Home </a>
-    <a id ='nav-a' href = '/about_me/'> About Me</a>
-    <a id ='nav-a' href = '/blog/'> Blog </a>
-</div>
-<div class = 'container-rim'>
+<div class = "col-8">
     <div class = "row">
+        {% if post.category %}
+        <h2 class = "col-12"><span class = "badge badge-secondary badge-design "> {{post.category}} </span></h2>
+
+        {% else %}
+        <h2 class = "col-12"><span class = "badge badge-secondary badge-design " > 미분류 </span></h2>
+
+        {% endif %}
+
         <h2 class = "col-12"> {{post.title}} </h2>
         <h6 class = "text-muted col-12"> {{post.hook_text}} </h6>
-    </div>
-    <div class = "row">
-        <p> {{post.updated_at}} </p><br>
+        <p  class = "col-12 float-right"> {{post.updated_at}} by {{post.author | upper}}</p><br>
     </div>
     <div class = "row">   
         {% if post.head_image %}
@@ -24,7 +25,6 @@
         <img class = "img-fluid rounded" src = "https://picsum.photos/seed/{{post.id}}/800/400" alt = "random_image"> 
 
         {% endif %}
-
     </div>
 
     <div class = "row">
@@ -50,6 +50,7 @@
         <p>{{post.content}}</p><br>
     </div>
 </div>
+
 
 {% endblock %}
 

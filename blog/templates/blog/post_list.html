@@ -1,63 +1,57 @@
 {% extends 'blog/base.html' %}
 {% block main_area %}
 
-<div class = 'container-rim'>
+
+<div class = "col-8">
     <div class = "row">
-        <h1 class = 'htag-shadow1'> Blog </h1>
+        <h3 class = 'htag-line htag-shadow2'> Mini Project </h3>
     </div>
-    <div class = "row">      
-        <div class = "col-8">
-            <div class = "row">
-                <h3 class = 'htag-line htag-shadow2'> Mini Project </h3>
+    <div class = "row">
+
+        {% for p in post_list %}
+        <div class = "card" id = "post-{{p.pk}}"> 
+
+            {% comment %} 카드 상단 이미지부분 {% endcomment %}
+            {% if p.head_image %}
+            <img class="card-img-top" src="{{ p.head_image.url }}" alt = "{{ p }} head image">
+            {% else %}
+            <img class="card-img-top" src="https://picsum.photos/seed/{{ p.id }}/800/200" alt ="random_image">
+            {% endif %}
+
+            {% comment %} 카드 바디 내용부분 {% endcomment %}
+            <div class = "card-body">
+
+                {% comment %} 카테고리 뱃지 {% endcomment %}
+                {% if p.category %}
+                <span class="badge badge-design float-right">{{ p.category }}</span>
+                <h3 class = "card-title"><a href = "{{ p.get_absolute_url }}"><b> {{p.title}}</b> </a></h3>
+                {% else %}
+                <h3 class = "card-title"><a href = "{{ p.get_absolute_url }}"><b> {{p.title}}</b> </a></h3>
+                {% endif %}
+
+                {% comment %} 훅텍스트 {% endcomment %}
+                {% if p.hook_text %}
+                    <p class = "text-muted"> {{p.hook_text}} </p>
+                {% endif %}
+
+                {% comment %} 카드 본문 내용: 단어 최대 45개 {% endcomment %}
+                <p class = "card-text"> {{p.content| truncatewords:45}} </p>
+                <a href="{{p.get_absolute_url}}" class="btn btn-design">Read More</a>
             </div>
-            <div class = "row">
 
-                {% for p in post_list %}
-                <div class = "card"> 
-
-                    {% if p.head_image %}
-                    <img class="card-img-top" src="{{ p.head_image.url }}" alt = "{{ p }} head image">
-                    {% else %}
-                    <img class="card-img-top" src="https://picsum.photos/seed/{{ p.id }}/800/200" alt ="random_image">
-                    {% endif %}
-
-                    <div class = "card-body">
-                        <h3 class = "card-title"><a href = "{{p.get_absolute_url}}"><b> {{p.title}}</b> </a></h3>
-                        
-                        {% if p.hook_text %}
-                            <p class = "text-muted"> {{p.hook_text}} </p>
-                        {% endif %}
-
-                        <p class = "card-text"> {{p.content| truncatewords:45}} </p>
-                        <a href="{{p.get_absolute_url}}" class="btn btn-design">Read More</a>
-                    </div>
-                    <div class = "card-footer">        
-                        <p> <b>{{p.created_at}}</b> by {{p.author | upper}} </p>
-                    </div>
-                </div>
-                {% endfor %}
-
-            </div>
-            <div class = "row">
-                <h3 class = 'htag-line htag-shadow2'> Project </h3>
-            </div>
-        </div>
-        <div class = "col-4">
-            <div class = "row">
-                <div class = "card card-design">
-                    <h5 class = "card-header  card-pdesign"> Search Category <h5>
-                    <div class = 'card-body'>
-                        <a href = "#" class = "card-link">a</a>
-                        <a href = "#" class = "card-link">b</a>
-                        <a href = "#" class = "card-link">c</a>
-                        <a href = "#" class = "card-link">d</a>
-                        <a href = "#" class = "card-link">e</a>
-                    </div>
-                </div>
+            {% comment %} 카드 푸터부분 {% endcomment %}
+            <div class = "card-footer">        
+                <p> <b>{{p.created_at}}</b> by {{p.author | upper}} </p>
             </div>
         </div>
+        {% endfor %}
+
+    </div>
+    <div class = "row">
+        <h3 class = 'htag-line htag-shadow2'> Project </h3>
     </div>
 </div>
+     
 
 {% endblock %}
 
