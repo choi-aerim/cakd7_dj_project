@@ -14,7 +14,7 @@ class Tag(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return f'blog/tag/{self.slug}'
+        return f'/blog/tag/{self.slug}'
 
 
 # category 구현하기

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from .models import Post, Category, Tag
 
 # ListView를 상속받은 PostList 클래스 생성
@@ -35,6 +35,7 @@ class PostDetail(DetailView):
 
         return context
 
+# FBV 방식으로 카테고리 함수 추가
 def category_page(request, slug):
     if slug == 'no_category':
         category = '미분류'
@@ -54,7 +55,7 @@ def category_page(request, slug):
         }
     )
     
-
+# FBV 방식으로 태그 함수 추가
 def tag_page(request, slug):
     tag = Tag.objects.get(slug = slug)
     post_list = tag.post_set.all()
@@ -69,6 +70,12 @@ def tag_page(request, slug):
             'no_category_post_count': Post.objects.filter(category = None).count(),
         }
     )
+
+
+# CBV 방식으로 포스트 생성 가능하도록 CreateView 클래스 추가
+class PostCreate(CreateView):
+    model = Post,
+    fields = ['title', 'hook_text','content','head_image','file_upload','category']
 
 
 

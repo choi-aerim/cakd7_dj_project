@@ -80,16 +80,24 @@ a{
 }
 .btn-design:hover{
     border: 2px solid gray;
+    font-weight: 600;
 }
 .badge-design{
-    background-color: rgba(181, 230, 29, 1)
+    background-color: rgba(181, 230, 29, 1);
+    border-color: rgba(181, 230, 29, 1);
+}
+.badge-design2{
+    background-color: rgb(227, 237, 196);
+    border-color: rgb(227, 237, 196);
+}
+.badge-design2:hover, .badge-design1:hover{
+    font-weight: 600;
 }
 .margin0{
     margin: 0;
 }
 .text-design{
     color: black;
-    font-size: smaller;
     text-shadow: none;
 }
 #footer{
