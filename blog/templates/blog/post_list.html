@@ -4,7 +4,17 @@
 
 <div class = "col-8">
     <div class = "row">
-    
+        {% comment %} new post 나타내기 {% endcomment %}
+        {% if user.is_authenticated %}
+            {% if user.is_superuser or user.is_staff %}
+                <a class = "btn btn-design btn-sm" href = "/blog/create_post/" role="button">
+                    <span class = "float-right"><i class = "fas fa-pen"></i> &nbsp;&nbsp; New Post </span>
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>   
+    <div class = "row">
+        {% comment %} 소제목 {% endcomment %}
         <h3 class = 'htag-line htag-shadow2'> 
             Mini Project 
             {% comment %} 카테고리 선택시 소제목 옆에 카테고리가 나타나도록 {% endcomment %}
@@ -12,6 +22,7 @@
 
             {% comment %} 태그 선택시 소제목 옆에 태그이름이 나타나도록 {% endcomment %}
             {% if tag %}<span class = "badge badge-secondary badge-design2 text-design float-right"><i class = "fas fa-tags"></i>{{ tag }} [{{ tag.post_set.count}}]</span>{% endif %}
+                    
         </h3>
     </div>
 

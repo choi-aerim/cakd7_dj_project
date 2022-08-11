@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post, Category, Tag
+from django.core.exceptions import PermissionDenied
 
 # ListView를 상속받은 PostList 클래스 생성
 # model = Post 선언 시, get_context_data에서 자동으로 post_list = Post.objects.all()을 명령함
@@ -73,9 +75,47 @@ def tag_page(request, slug):
 
 
 # CBV 방식으로 포스트 생성 가능하도록 CreateView 클래스 추가
-class PostCreate(CreateView):
-    model = Post,
+# createview 상속받고, 새 포스트 기재시 작성 내용을 field에 지정
+# loginrequiredmixin: 로그인했을 때만 정상적으로 페이지가 보이게 됨
+# UserPassesTestMixin: 사용자의 등급을 부여하고 특정 사용자만 포스트 작성 페이지 접근이 가능하도록 지정할 수 있음
+class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Post
     fields = ['title', 'hook_text','content','head_image','file_upload','category']
 
+    #지정 사용자인지, superuser인지 확인
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
 
+
+    # author 필드를 자동으로 채우기 위해 CreateView의 form_valid() 함수 활용
+    ## form_valid()함수는 방문자가 폼에 담아 보낸 유효한 정보를 사용해 포스트를 만들고, 포스트의 고유 경로로 보내주는 역할을 함
+    def form_vaild(self,form):
+        current_user = self.request.user      
+        #is_authenticated:현재 방문자가 로그인한 상태인지 확인
+        if current_user.is_authenticated and (current_user.is_staff or current_user.is_superuser):
+            form.instance.author = current_user    #form에서 생성한 instance(새로생성포스트)의 author필드를 current_user을 담아라
+            return super(PostCreate, self).form_valid(form)
+        else:
+            return redirect('/blog/')     #로그인하지 않은 상태면 /blog/ 경로로 돌려보냄
+    
+# CBV 방식으로 포스트를 수정할 수 있도록 PostUpdate 클래스 생성
+# 이미 수정하려는 포스트에 작성자가 존재하므로 form_valid()함수 사용 안함
+class PostUpdate(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = ['title','hook_text','content','head_image','file_upload','category','tags']
+
+    template_name = 'blog/post_update_form.html'
+
+    #dispatch(): 방문자가 웹사이트 서버에 get방식으로 요청했는지 post 방식으로 요청했는지 판단
+    ## get: 포스트를 작성할 수 있는 폼 페이지 보내줌
+    ## post: 같은 경로로 폼에 내용을 담아 post 방식으로 들어오면, 폼이 유효한지 확인하고 문제없으면 db에 저장
+    def dispatch(self, request, *args, **kwargs):
+        #포스트의 작성자와 로그인한 유저와 동일할 시, dispatch()함수 작용
+        if request.user.is_authenticated and request.user == self.get_object().author:  
+            return super(PostUpdate, self).dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied    #조건 불만족 시, 권한 없음을 나타냄
+
+    
+    
 

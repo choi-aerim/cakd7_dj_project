@@ -16,7 +16,10 @@ urlpatterns = [
     # Python/만 떼어 views.py의 tag_page 함수로 보냄
     path('tag/<str:slug>/', views.tag_page),
 
-    # 새포스트 생성시, creat_post 클래스로 보냄
+    # 새 포스트 생성시, creat_post 클래스로 보냄
     path('create_post/', views.PostCreate.as_view()),
+
+    #만들어진 포스트 수정시, 
+    path('update_post/<int:pk>/' , views.PostUpdate.as_view()),
 ]
 

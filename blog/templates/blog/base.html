@@ -23,43 +23,43 @@
             <h1 class = 'htag-shadow1'> Blog </h1>
         </div>
         <div class = "row">     
-
-    {% block main_area %} {% endblock %}
+            {% block main_area %} {% endblock %}
+        
     
 
-    <div class = "col-4">
-        <div class = "row">
-            <div class="card card-design" style="max-width: 18rem;">
-                <div class="card-header card-pdesign"><h5><b> Search </b></h5></div>
-                <div class="card-body">
-                    {% comment %} 검색바 만들기 {% endcomment %}
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="검색어를 입력하세요.">
-                        <span class="input-group-btn">
-                            <button class="btn btn-secondary badge-design text-design" type="button">Go!</button>
-                        </span>
+            <div class = "col-4">
+                <div class = "row">
+                    <div class="card card-design" style="max-width: 18rem;">
+                        <div class="card-header card-pdesign"><h5><b> Search </b></h5></div>
+                        <div class="card-body">
+                            {% comment %} 검색바 만들기 {% endcomment %}
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="검색어를 입력하세요.">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-secondary badge-design text-desi" type="button">Go!</button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class = "row">
-            <div class="card card-design" style="max-width: 18rem;">
-                <div class="card-header card-pdesign"><h5><b> Categories </b></h5></div>
-                <div class="card-body">
-                    <ul class = "list-unstyled">
-                        {% comment %} 카테고리, 해당 게시물 개수 나타내기 {% endcomment %}
-                        {% for category in categories %}
-                        <li><p class="card-text">- <a href = "{{ category.get_absolute_url }}">{{category}} [{{ category.post_set.count }}]</a></p></li>
-                        {% endfor %}
+                <div class = "row">
+                    <div class="card card-design" style="max-width: 18rem;">
+                        <div class="card-header card-pdesign"><h5><b> Categories </b></h5></div>
+                        <div class="card-body">
+                            <ul class = "list-unstyled">
+                                {% comment %} 카테고리, 해당 게시물 개수 나타내기 {% endcomment %}
+                                {% for category in categories %}
+                                <li><p class="card-text">- <a href = "{{ category.get_absolute_url }}">{{category}} [{{ category.post_set.count }}]</a></p></li>
+                                {% endfor %}
 
-                        {% comment %} 미분류된 카테고리, 해당 게시물 개수 나타내기 {% endcomment %}
-                        <li><p class="card-text">- <a href = "/blog/category/no_category/">미분류 [{{ no_category_post_count }}]</a></p></li>
-                    </ul>
+                                {% comment %} 미분류된 카테고리, 해당 게시물 개수 나타내기 {% endcomment %}
+                                <li><p class="card-text">- <a href = "/blog/category/no_category/">미분류 [{{ no_category_post_count }}]</a></p></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </div> 
         </div>
-    </div> 
-
 
 
 

@@ -12,10 +12,20 @@
         <h2 class = "col-12"><span class = "badge badge-secondary badge-design " > 미분류 </span></h2>
         {% endif %}
         
+        
         {% comment %} 타이틀, 훅텍스트, 업데이트된 날짜 적기 {% endcomment %}
         <h2 class = "col-12 my-3"><b> {{post.title}} </b></h2>
+        
         <h6 class = "text-muted col-12"> {{post.hook_text}} </h6>
-        <p  class = "col-12 float-right"> {{post.updated_at}} by {{post.author | upper}}</p><br>
+        <p  class = "col-12 float-right"> {{post.updated_at}} by {{post.author | upper}}
+            {% if user.is_authenticated and user == post.author %}
+                <a class = "btn btn-light btn-sm float-right" href = "/blog/update_post/{{ post.pk }}/" role = "button">
+                    <i class = "fas fa-pen"></i> Edit Post 
+                </a>
+            {% endif %}
+        </p><br> 
+        
+        
     </div>
 
     <div class = "row">   
