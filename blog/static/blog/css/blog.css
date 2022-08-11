@@ -68,6 +68,13 @@ a{
 .card-pdesign{
     background:  rgba(201, 243, 166, 0.758);
 }
+.atag-nodesign{
+    text-decoration: none !important;
+}
+.atag-nodesign:hover{
+    text-shadow: 2px 2px 2px gray;
+    color: black;
+}
 .btn-design{
     background-color: rgba(201, 243, 167, 0.852);
 }
@@ -79,6 +86,11 @@ a{
 }
 .margin0{
     margin: 0;
+}
+.text-design{
+    color: black;
+    font-size: smaller;
+    text-shadow: none;
 }
 #footer{
 bottom: 0; right:0; left:0;

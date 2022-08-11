@@ -7,7 +7,7 @@
     <link rel= "stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/21f0d8bab4.js" crossorigin="anonymous"></script>
     <link rel= "stylesheet" href="{% static 'blog/css/blog.css' %}" media = "screen">
-
+    <link rel="stylesheet" href="{% static 'single_pages/css/hamchorom.css'%}">
 
     <title>{% block head_title %}Blog{% endblock %}</title>
 
@@ -28,21 +28,20 @@
     
 
     <div class = "col-4">
-        <div class = "row">
-            <div class = "card card-design" id = "categories-card">
-                <h5 class = "card-header  card-pdesign"> Categories <h5>
-                <div class = 'card-body'>
-                    <div class = "row">
-                        <ul class = "list-unstyled ">
-                            {% comment %} 카테고리, 해당 게시물 개수 나타내기 {% endcomment %}
-                            {% for category in categories %}
-                            <li><a href = "{{ category.get_absolute_url }}"><p> {{category}} [{{ category.post_set.count }}]</p></a></li>
-                            {% endfor %}
 
-                            {% comment %} 미분류된 카테고리, 해당 게시물 개수 나타내기 {% endcomment %}
-                            <li><a href = "/blog/category/no_category/"><p> 미분류 [{{ no_category_post_count }}]</p></a></li>
-                        </ul>
-                    </div>
+        <div class = "row">
+            <div class="card card-design" style="max-width: 18rem;">
+                <div class="card-header card-pdesign"><h5><b> Categories </b></h5></div>
+                <div class="card-body">
+                    <ul class = "list-unstyled">
+                        {% comment %} 카테고리, 해당 게시물 개수 나타내기 {% endcomment %}
+                        {% for category in categories %}
+                        <li><p class="card-text">- <a href = "{{ category.get_absolute_url }}">{{category}} [{{ category.post_set.count }}]</a></p></li>
+                        {% endfor %}
+
+                        {% comment %} 미분류된 카테고리, 해당 게시물 개수 나타내기 {% endcomment %}
+                        <li><p class="card-text">- <a href = "/blog/category/no_category/">미분류 [{{ no_category_post_count }}]</a></p></li>
+                    </ul>
                 </div>
             </div>
         </div>

@@ -5,6 +5,18 @@ import os
 from django.contrib.auth.models import User
 
 
+# tag 구현하기
+class Tag(models.Model):
+    name = models.CharField(max_length = 50)
+    slug = models.SlugField(max_length = 200, unique = True, allow_unicode = True)
+
+    def __str__(self):
+        return self.name
+    
+    def get_absolute_url(self):
+        return f'blog/tag/{self.slug}'
+
+
 # category 구현하기
 class Category(models.Model):
     # unique=True: 동일한 이름 사용 금지
@@ -41,6 +53,8 @@ class Post(models.Model):
     author = models.ForeignKey(User, null = True, on_delete = models.SET_NULL)
 
     category = models.ForeignKey(Category, null = True, blank = True, on_delete = models.SET_NULL)
+
+    tags = models.ManyToManyField(Tag, null = True, blank = True)
     
     def __str__(self):
         return f'[{self.pk}]{self.title} :: {self.author}'

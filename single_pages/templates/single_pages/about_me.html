@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="en">
+    {% load static %}
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'single_pages/css/hamchorom.css'%}">
     <title> About Me </title>
 
     <style>
@@ -26,7 +27,6 @@
             color: black;
             font-size: large;
         }
-
         #contents{
         position: relative;
         top: 70px; right: 0; left: 0; bottom: 50px;
@@ -36,15 +36,17 @@
             margin: 50px;
         }
         #footer{
-        position: fixed;
-        bottom: 0; right:0; left:0;
-        margin-top: 10px;
-        text-align: center;
-        font-weight: 500;
-        color: rgba(128, 128, 128, 0.783);
-        }
-        .center{ 
+            bottom: 0; right:0; left:0;
+            margin-top: 10px;
             text-align: center;
+            font-weight: 500;
+            color: rgba(128, 128, 128, 0.783);
+            }
+        .text-center{ 
+            text-align: center;
+        }
+        .position-center{
+            margin:0  50px ;
         }
         .main-hr{
             border: 0;
@@ -74,7 +76,7 @@
 
 <body>
     <div id = 'nav-bar'>
-        <a id ='nav-a' href = '/landing/'> Home </a>
+        <a id ='nav-a' href = '/'> Home </a>
         <a id ='nav-a' href = '/about_me/'> About Me</a>
         <a id ='nav-a' href = '/blog/'> Blog </a>
     </div>
@@ -90,7 +92,7 @@
             </div>
             <div class ='row'>
                 <div class="col-6">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png" width ="250">
+                    <img class = "position-center" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png" width ="250">
                 </div>
                 
                 <div class="col-6">
@@ -109,7 +111,7 @@
                 <div class="col-12"><h3 class="htag-line htag-shadow2">History</h3></div>
             </div>
             <div class ='row '>  
-                <div class="col-4 center">
+                <div class="col-4 text-center">
                     <p><b>1995.11</b><br>
                     <b>2011.02</b><br>
                     <b>2014.02</b><br>
@@ -134,7 +136,7 @@
                 <div class="col-12"> <h3 class="htag-line htag-shadow2"> My skill</h3> </div>
             </div>
             <div class ='row'>
-                <div class="col-4 center">
+                <div class="col-4 text-center">
                     <p><b>파이썬</b></p>
                     <p><b>파이썬</b></p>
                     <p><b>파이썬</b></p>

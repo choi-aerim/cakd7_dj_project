@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from .models import Post, Category
+from .models import Post, Category, Tag
 
 # ListView를 상속받은 PostList 클래스 생성
 # model = Post 선언 시, get_context_data에서 자동으로 post_list = Post.objects.all()을 명령함
@@ -54,5 +54,21 @@ def category_page(request, slug):
         }
     )
     
+
+def tag_page(request, slug):
+    tag = Tag.objects.get(slug = slug)
+    post_list = tag.post_set.all()
+
+    return render(
+        request,
+        'blog/post_list.html',
+        {
+            'post_list': post_list,
+            'tag': tag,
+            'categories': Category.objects.all(),
+            'no_category_post_count': Post.objects.filter(category = None).count(),
+        }
+    )
+
 
 

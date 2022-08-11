@@ -4,10 +4,18 @@
 
 <div class = "col-8">
     <div class = "row">
-        <h3 class = 'htag-line htag-shadow2'> Mini Project </h3>
-    </div>
-    <div class = "row">
+    
+        <h3 class = 'htag-line htag-shadow2'> 
+            Mini Project 
 
+            {% comment %} 카테고리 선택시 소제목 옆에 카테고리가 나타나도록 {% endcomment %}
+        {% if category %} <span class = "badge badge-secondary badge-design text-design">{{ category }}</span> {% endif %}
+        </h3>
+        
+        {% if tag %}<span class = "badge badge-secondary "><i class = "fas fa-tags"></i>{{ tag }} [{{ tag.post_set.count}}]</span>{% endif %}
+    </div>
+
+    <div class = "row">
         {% for p in post_list %}
         <div class = "card" id = "post-{{p.pk}}"> 
 
@@ -21,12 +29,12 @@
             {% comment %} 카드 바디 내용부분 {% endcomment %}
             <div class = "card-body">
 
-                {% comment %} 카테고리 뱃지 {% endcomment %}
+                {% comment %} 타이틀, 카테고리 뱃지 {% endcomment %}
                 {% if p.category %}
                 <span class="badge badge-design float-right">{{ p.category }}</span>
-                <h3 class = "card-title"><a href = "{{ p.get_absolute_url }}"><b> {{p.title}}</b> </a></h3>
+                <h3 class = "card-title"><a class = "atag-nodesign" href = "{{ p.get_absolute_url }}"><b> {{p.title}}</b> </a></h3>
                 {% else %}
-                <h3 class = "card-title"><a href = "{{ p.get_absolute_url }}"><b> {{p.title}}</b> </a></h3>
+                <h3 class = "card-title"><a class = "atag-nodesign" href = "{{ p.get_absolute_url }}"><b> {{p.title}}</b> </a></h3>
                 {% endif %}
 
                 {% comment %} 훅텍스트 {% endcomment %}
@@ -37,6 +45,17 @@
                 {% comment %} 카드 본문 내용: 단어 최대 45개 {% endcomment %}
                 <p class = "card-text"> {{p.content| truncatewords:45}} </p>
                 <a href="{{p.get_absolute_url}}" class="btn btn-design">Read More</a>
+
+                {% comment %} 태그 {% endcomment %}
+                {% if p.tags.exists %}
+                    <p>
+                        <br/>
+                        <i class = "fas fa-tags"></i>
+                        {% for tag in p.tags.iterator %}
+                            <a href = "{{ tag.get_absolute_url }}"><span class = "badge badge=pill badge-light">{{ tag }}</span></a>
+                        {% endfor %}
+                    </p>
+                {% endif %}
             </div>
 
             {% comment %} 카드 푸터부분 {% endcomment %}

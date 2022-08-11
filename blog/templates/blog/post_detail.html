@@ -5,19 +5,21 @@
 
 <div class = "col-8">
     <div class = "row">
+        {% comment %} 카테고리 뱃지 달기 {% endcomment %}
         {% if post.category %}
         <h2 class = "col-12"><span class = "badge badge-secondary badge-design "> {{post.category}} </span></h2>
-
         {% else %}
         <h2 class = "col-12"><span class = "badge badge-secondary badge-design " > 미분류 </span></h2>
-
         {% endif %}
-
-        <h2 class = "col-12"> {{post.title}} </h2>
+        
+        {% comment %} 타이틀, 훅텍스트, 업데이트된 날짜 적기 {% endcomment %}
+        <h2 class = "col-12 my-3"><b> {{post.title}} </b></h2>
         <h6 class = "text-muted col-12"> {{post.hook_text}} </h6>
         <p  class = "col-12 float-right"> {{post.updated_at}} by {{post.author | upper}}</p><br>
     </div>
+
     <div class = "row">   
+        {% comment %} 상단 이미지 {% endcomment %}
         {% if post.head_image %}
         <img class = "img-fluid rounded" src = "{{post.head_image.url}}" alt = "{{post.title}} head_image"> 
 
@@ -28,11 +30,11 @@
     </div>
 
     <div class = "row">
+        {% comment %} 파일 다운로드 부분 {% endcomment %}
         {% if post.file_upload %}
         <p><b> 파일 다운로드: &nbsp; </b></p>
         <a href = "{{ post.file_upload.url }}" class = "btn btn-design" role = "button" download >
             
-
             {% if post.get_file_ext == 'csv' %}
             <i class="fa-solid fa-file-csv"></i>
             {% elif post.get_file_ext == 'excel' %}
@@ -45,9 +47,23 @@
             &nbsp; {{ post.get_file_name }}
         </a>
         {% endif %}
+
     </div>    
+    {% comment %} 카드 본문 내용 {% endcomment %}
     <div class = "row">   
         <p>{{post.content}}</p><br>
+    </div>
+    {% comment %} 태그 달기 {% endcomment %}
+    <div class = "row">   
+        {% if post.tags.exists %}
+            <i class = "fas fa-tags"></i>
+
+            {% for tag in post.tags.all %}
+                <a href = "{{tag.get_absoute_url}}" class = "badge badge-light"> {{tag}}</a>
+            {% endfor %}
+            <br/>
+            <br/>
+        {% endif %}
     </div>
 </div>
 
