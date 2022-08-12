@@ -1,16 +1,28 @@
 {% extends 'blog/base_full_width.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block head_title %} <b>Create Post - Blog</b> {% endblock %}
-<hr/>
+
 
 {% block main_area %}
+    {% comment %} 제목 {% endcomment %}
     <h1>  Create New Post </h1>
+    <hr/>
+    {% comment %} 포스트 생성 본문 {% endcomment %}
     <form method = "post" enctype = "multipart/form-data">{% csrf_token %}
         <table>
-            {{ form }}
+            {{ form | crispy }}
+            <div id = "div_id_tags_str"> 
+                <label for = "id_tags_str">Tags:</label>
+                <input type = "text" name = "tags_str" id ="id_tags_str" class = "textinput textInput form-control">
+            </div>
         </table>
+        <br/>
         <button type = "submit" class = "btn btn-design float-right"> 저장 </button>
     </form>
+    {% comment %} 포스트 작성 시, 마크다운이 적용되어 렌더링된 모습 나타남 {% endcomment %}
+    {{ form.media }}
 {% endblock %}
 
     

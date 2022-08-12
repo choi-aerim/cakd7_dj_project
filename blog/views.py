@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post, Category, Tag
 from django.core.exceptions import PermissionDenied
+from django.utils.text import slugify
 
 # ListView를 상속받은 PostList 클래스 생성
 # model = Post 선언 시, get_context_data에서 자동으로 post_list = Post.objects.all()을 명령함
@@ -94,10 +95,40 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         #is_authenticated:현재 방문자가 로그인한 상태인지 확인
         if current_user.is_authenticated and (current_user.is_staff or current_user.is_superuser):
             form.instance.author = current_user    #form에서 생성한 instance(새로생성포스트)의 author필드를 current_user을 담아라
-            return super(PostCreate, self).form_valid(form)
+            
+            #태그와 관련된 작업 하기 전에 createview의 form_valid() 함수의 결과값을 resposne에 임시로 담아둠
+            response = super(PostCreate, self).form_valid(form)
+
+            #장고가 작성한 post_html폼은 method가 post임. 추가된 input 값(새로운 태그)은 post방식으로 postcreate까지 전달되며, 그 값을 가져오도록 함
+            tags_str = self.request.POST.get('tags_str')
+
+            #값이 빈칸인 경우
+            if tags_str:
+                tags_str = tags_str.strip()
+                tags_str = tags_str.relace(',',';')
+                tags_list = tags_str.split(';')
+
+                for t in tags_list:
+                    t = t.strip()
+                    # tag: tag모델의 인스턴스, is_tag_created: 인스턴스가 생성되었는지 bool 값
+                    # t를 name으로 갖는 태그가 있다면 가져오고, 없다면, 새로 만들기
+                    tag, is_tag_created = Tag.objects.get_or_create(name = t) 
+                    #생성되었다면 slug 값 생성, 한글 ㅇㅋ
+                    if is_tag_created:
+                        tag.slug = slugify(t, allow_unicode = True)
+                        tag.save()
+                    #새로만든 태그나 기존 태그 모두 새로 만든 포스트의tag 필드에 추가해야함
+                    #self.object : 이번에 새로만든 태그
+                    self.object.tags.add(tag)
+
+            return response
+
         else:
             return redirect('/blog/')     #로그인하지 않은 상태면 /blog/ 경로로 돌려보냄
+
     
+    
+
 # CBV 방식으로 포스트를 수정할 수 있도록 PostUpdate 클래스 생성
 # 이미 수정하려는 포스트에 작성자가 존재하므로 form_valid()함수 사용 안함
 class PostUpdate(LoginRequiredMixin, UpdateView):
@@ -105,6 +136,16 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
     fields = ['title','hook_text','content','head_image','file_upload','category','tags']
 
     template_name = 'blog/post_update_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PostUpdate, self).get_context_data()
+        if self.object.tags.exists():
+            tags_str_list = list()
+            for t in self.object.tags.all():
+                tags_str_list.append(t.name)
+            context['tags_str_default'] = '; '.join(tags_str_list)
+
+        return context
 
     #dispatch(): 방문자가 웹사이트 서버에 get방식으로 요청했는지 post 방식으로 요청했는지 판단
     ## get: 포스트를 작성할 수 있는 폼 페이지 보내줌
@@ -115,6 +156,29 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
             return super(PostUpdate, self).dispatch(request, *args, **kwargs)
         else:
             raise PermissionDenied    #조건 불만족 시, 권한 없음을 나타냄
+
+    def form_valid(self, form):
+        response = super(PostUpdate, self).form_valid(form)
+        self.object.tags.clear()
+    
+        tags_str = self.request.POST.get('tags_str')
+        if tags_str:
+            tags_str = tags_str.strip()
+            tags_str = tags_str.replace(',',';')
+            tags_list = tags_str.split(';')
+
+            for t in tags_list:
+                t = t.strip()
+                tag, is_tag_created = Tag.objects.get_or_create(name = t)
+                if is_tag_created:
+                    tag.slug = slugify(t,allow_unicode = True)
+                    tag.save()
+                self.object.tags.add(tag)
+        return response
+
+
+
+    
 
     
     

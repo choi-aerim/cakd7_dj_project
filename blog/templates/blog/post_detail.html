@@ -61,7 +61,7 @@
     </div>    
     {% comment %} 카드 본문 내용 {% endcomment %}
     <div class = "row">   
-        <p>{{post.content}}</p><br>
+        <p>{{ post.get_content_markdown | safe }}</p><br>
     </div>
     {% comment %} 태그 달기 {% endcomment %}
     <div class = "row">   

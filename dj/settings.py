@@ -37,8 +37,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    #크리스피 폼, 마크다운
+    'crispy_forms',
+    'markdownx',
+    
+    # 로그인 기능 관련
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    
+    #블록, 싱글페이지
     'blog',
     'single_pages',
+    
 ]
 
 MIDDLEWARE = [
@@ -101,6 +115,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# 로그인 기능 관련
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True    #회원가입 시 이메일 반드시 받음
+ACCOUNT_EMAIL_VERIFICATION = 'none'   #이메일 검증 기능 구현 안함
+
+# 로그인했을 때 
+LOGIN_REDIRECT_URL = '/blog/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -124,3 +149,6 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+

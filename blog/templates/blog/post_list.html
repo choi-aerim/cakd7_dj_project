@@ -54,7 +54,7 @@
                 {% endif %}
 
                 {% comment %} 카드 본문 내용: 단어 최대 45개 {% endcomment %}
-                <p class = "card-text"> {{p.content| truncatewords:45}} </p>
+                <p class = "card-text"> {{p.get_content_markdown | truncatewords_html:45 | safe }} </p>
                 <a href="{{p.get_absolute_url}}" class="btn btn-design">Read More</a>
 
                 {% comment %} 태그 {% endcomment %}

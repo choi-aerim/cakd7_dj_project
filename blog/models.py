@@ -1,9 +1,11 @@
 from django.db import models
-import os
-
 # foreign 키로 author 필드 구현하기
 from django.contrib.auth.models import User
-
+# 마크다운된 필드 보여주는 것 구현하기 
+from markdownx.models import MarkdownxField
+# 마크다운된 필드를 html파일로 수정해서 구현하기
+from markdownx.utils import markdown
+import os
 
 # tag 구현하기
 class Tag(models.Model):
@@ -39,7 +41,7 @@ class Post(models.Model):
     title =  models.CharField(max_length = 30)
     hook_text = models.CharField(max_length=100, blank = True)
 
-    content = models.TextField()
+    content = MarkdownxField()
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     
@@ -68,6 +70,9 @@ class Post(models.Model):
     def get_file_ext(self):
         return self.get_file_name().split('.')[-1]
 
+    # content 텍스트를 마크다운 적용된 html파일로 변경
+    def get_content_markdown(self):
+        return markdown(self.content)
 
 
 
