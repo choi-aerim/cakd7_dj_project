@@ -56,7 +56,7 @@ class Post(models.Model):
 
     category = models.ForeignKey(Category, null = True, blank = True, on_delete = models.SET_NULL)
 
-    tags = models.ManyToManyField(Tag, null = True, blank = True)
+    tags = models.ManyToManyField(Tag, blank = True)
     
     def __str__(self):
         return f'[{self.pk}]{self.title} :: {self.author}'
