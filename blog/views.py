@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post, Category, Tag
+from .forms import CommentForm
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
 
@@ -35,6 +36,8 @@ class PostDetail(DetailView):
         #원하는 쿼리셋을 만들어 딕셔너리형태로 context에 담기
         context['categories'] = Category.objects.all()    #모든 카테고리 소환
         context['no_category_post_count'] = Post.objects.filter(category=None).count()   #카테고리가 미분류된 개수 세기
+
+        context['comment_form'] = CommentForm
 
         return context
 
@@ -176,6 +179,27 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
                     tag.save()
                 self.object.tags.add(tag)
         return response
+
+
+# 댓글작성
+def new_comment(request,pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, pk=pk)
+
+        if request.method == 'POST':
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit = False)
+                comment.post = post
+                comment.author = request.user
+                comment.save()
+                return redirect(comment.get_absolute_url())
+
+        else:
+            return redirect(post.get_absolute_url())
+
+    else:
+        raise PermissionDenied
 
 
 

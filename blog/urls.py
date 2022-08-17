@@ -21,5 +21,8 @@ urlpatterns = [
 
     #만들어진 포스트 수정시, 
     path('update_post/<int:pk>/', views.PostUpdate.as_view()),
+
+    # 댓글
+    path('<int:pk>/new_comment/', views.new_comment),
 ]
 
