@@ -6,13 +6,15 @@ from .models import Post, Category, Tag, Comment
 from .forms import CommentForm
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
+from django.db.models import Q 
 
 # ListView를 상속받은 PostList 클래스 생성
 # model = Post 선언 시, get_context_data에서 자동으로 post_list = Post.objects.all()을 명령함
 #  ==> 따라서 html파일에서 for문에 post_list를 사용할 수 있는 것
 class PostList(ListView):
     model =  Post
-    ordering = 'pk'
+    ordering = '-pk'
+    paginate_by = 5
 
     #get_context_data 오버라이딩 
     def get_context_data(self, **kwargs):
@@ -132,8 +134,6 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             return redirect('/blog/')     #로그인하지 않은 상태면 /blog/ 경로로 돌려보냄
 
 
-    
-
 # CBV 방식으로 포스트를 수정할 수 있도록 PostUpdate 클래스 생성
 # 이미 수정하려는 포스트에 작성자가 존재하므로 form_valid()함수 사용 안함
 class PostUpdate(LoginRequiredMixin, UpdateView):
@@ -222,8 +222,22 @@ def delete_comment(request, pk):
         return redirect(post.get_absolute_url())
     else:
         raise PermissionDenied
-    
 
-    
-    
 
+# 검색
+class PostSearch(PostList):
+    paginate_by = None
+
+    def get_queryset(self):
+        q = self.kwargs['q']
+        post_list = Post.objects.filter(
+            Q(title__contains = q)| Q(tags__name__contains = q)
+        ).distinct()
+        return post_list
+    
+    def get_context_data(self, **kwargs):
+        context = super(PostSearch, self).get_context_data()
+        q = self.kwargs['q']
+        context['search_info'] = f' 검색 내용:  {q} ({self.get_queryset().count()})'
+
+        return context

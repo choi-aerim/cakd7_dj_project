@@ -30,5 +30,9 @@ urlpatterns = [
 
     # 댓글 삭제
     path('delete_comment/<int:pk>/', views.delete_comment),
+
+    # 검색
+    # 검색어에 해당하는 값을 문자열로 받고 이 값을 q로 부르겠다는 의미
+    path('search/<str:q>/', views.PostSearch.as_view()),
 ]
 

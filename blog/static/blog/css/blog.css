@@ -70,6 +70,7 @@ a{
 }
 .atag-nodesign{
     text-decoration: none !important;
+    color:rgba(128, 128, 128, 0.758);
 }
 .atag-nodesign:hover{
     text-shadow: 2px 2px 2px gray;

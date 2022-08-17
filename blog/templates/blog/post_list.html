@@ -16,6 +16,7 @@
     </div>  
      
     <div class = "row">
+        <h3> {% if search_info %} <small class = "text_muted"> <b>{{ search_info }}</b></small>{% endif %} </h3>
         {% comment %} 소제목 {% endcomment %}
         <h3 class = 'htag-line htag-shadow2'> 
             Mini Project 
@@ -78,11 +79,35 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+ 
+        {% if is_paginated %}
+        <ul class = "pagination justify-content-center mb-4">
+            {% comment %} 이전 페이지 {% endcomment %}
+            {% if page_obj.has_next %}
+            <li class = "page-item">
+                <a class = "page-link atag-nodesign" href = "?page={{ page_obj.next_page_number }}"><b>&larr; 이전</b></a>
+            </li>
+            {% else %}
+            <li class = "page-item disabled">
+                <a class = "page-link atag-nodesign" href ="#"><b>&larr; 이전</b></a>
+            </li>
+            {% endif %}
 
-    </div>
-    <div class = "row">
-        <h3 class = 'htag-line htag-shadow2'> Project </h3>
-    </div>
+            {% comment %} 다음 페이지 {% endcomment %}
+            {% if page_obj.has_previous %}
+            <li class = "page-item">
+                <a class = "page-link atag-nodesign" href = "?page={{ page_obj.previous_page_number }}"><b>다음 &rarr;</b></a>
+            </li>
+            {% else %}
+            <li class = "page-item disabled">
+                <a class = "page-link" atag-nodesign href ="#"> <b>다음 &rarr; </b></a>
+            </li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    
+
 </div>
      
 
