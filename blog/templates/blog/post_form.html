@@ -10,13 +10,18 @@
     <h1>  Create New Post </h1>
     <hr/>
     {% comment %} 포스트 생성 본문 {% endcomment %}
-    <form method = "post" enctype = "multipart/form-data">{% csrf_token %}
+    {% comment %} enctype = "multipart/form-data": 파일도 같이 전송하겠음 {% endcomment %}
+    {% comment %} {% csrf_token %}: 웹사이트를 crsf 공격으로부터 보호하겠음 {% endcomment %}
+    <form method = "post" enctype = "multipart/form-data">{% csrf_token %}  
         <table>
             {{ form | crispy }}
-            <div id = "div_id_tags_str"> 
-                <label for = "id_tags_str">Tags:</label>
-                <input type = "text" name = "tags_str" id ="id_tags_str" class = "textinput textInput form-control">
-            </div>
+            {% comment %} 태그 선택란 추가 {% endcomment %}
+            {% comment %} <div id = "div_id_tags_str">  {% endcomment %}
+            <tr>
+                <th><label for = "id_tags_str">Tags:</label></th>
+                <td><input type = "text" name = "tags_str" id ="id_tags_str"></td>
+            </tr>
+            {% comment %} </div> {% endcomment %}
         </table>
         <br/>
         <button type = "submit" class = "btn btn-design float-right"> 저장 </button>

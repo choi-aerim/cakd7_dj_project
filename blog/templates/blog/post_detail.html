@@ -17,7 +17,7 @@
         <h2 class = "col-12 my-3"><b> {{post.title}} </b></h2>
         
         <h6 class = "text-muted col-12"> {{post.hook_text}} </h6>
-        <p  class = "col-12 float-right"> {{post.updated_at}} by {{post.author | upper}}
+        <p  class = "col-12 float-right"> {{post.updated_at}} by <a href = "#"> {{ post.author | upper }} </a>
             {% if user.is_authenticated and user == post.author %}
                 <a class = "btn btn-light btn-sm float-right" href = "/blog/update_post/{{ post.pk }}/" role = "button">
                     <i class = "fas fa-pen"></i> Edit Post 
@@ -69,7 +69,7 @@
             <i class = "fas fa-tags"></i>
 
             {% for tag in post.tags.all %}
-                <a href = "{{tag.get_absoute_url}}" class = "badge badge-light"> {{tag}}</a>
+                <a href = "{{ tag.get_absoute_url }}" class = "badge badge-light"> {{ tag }}</a>
             {% endfor %}
             <br/>
             <br/>

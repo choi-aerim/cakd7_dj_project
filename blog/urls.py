@@ -20,6 +20,6 @@ urlpatterns = [
     path('create_post/', views.PostCreate.as_view()),
 
     #만들어진 포스트 수정시, 
-    path('update_post/<int:pk>/' , views.PostUpdate.as_view()),
+    path('update_post/<int:pk>/', views.PostUpdate.as_view()),
 ]
 

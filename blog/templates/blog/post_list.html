@@ -4,7 +4,8 @@
 
 <div class = "col-8">
     <div class = "row">
-        {% comment %} new post 나타내기 {% endcomment %}
+        {% comment %} new post 버튼 나타내기 {% endcomment %}
+        {% comment %} 로그인이 되어 있는 경우에 사용자가 최고 관리자/스태프일 때만 버튼이 보이도록 설정 {% endcomment %}
         {% if user.is_authenticated %}
             {% if user.is_superuser or user.is_staff %}
                 <a class = "btn btn-design btn-sm" href = "/blog/create_post/" role="button">
@@ -12,7 +13,8 @@
                 </a>
             {% endif %}
         {% endif %}
-    </div>   
+    </div>  
+     
     <div class = "row">
         {% comment %} 소제목 {% endcomment %}
         <h3 class = 'htag-line htag-shadow2'> 
@@ -58,12 +60,13 @@
                 <a href="{{p.get_absolute_url}}" class="btn btn-design">Read More</a>
 
                 {% comment %} 태그 {% endcomment %}
+                {% comment %} 태그가 존재하면 게시해놔라 {% endcomment %}
                 {% if p.tags.exists %}
                     <p>
                         <br/>
                         <i class = "fas fa-tags"></i>
                         {% for tag in p.tags.iterator %}
-                            <a href = "{{ tag.get_absolute_url }}"><span class = "badge badge=pill badge-light">{{ tag }}</span></a>
+                            <a href = "{{ tag.get_absolute_url }}"><span class = "badge badge-pill badge-light">{{ tag }}</span></a>
                         {% endfor %}
                     </p>
                 {% endif %}
@@ -71,7 +74,7 @@
 
             {% comment %} 카드 푸터부분 {% endcomment %}
             <div class = "card-footer">        
-                <p> <b>{{p.created_at}}</b> by {{p.author | upper}} </p>
+                <b>{{ p.created_at }}</b> by <a href = "#"> {{ p.author | upper }} </a>
             </div>
         </div>
         {% endfor %}

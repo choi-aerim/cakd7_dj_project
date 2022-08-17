@@ -6,13 +6,19 @@
 <hr/>
 
 {% block main_area %}
-    <h1>  Edit New Post </h1>
+    <h1>  Edit Post </h1>
     <form method = "post" enctype = "multipart/form-data">{% csrf_token %}
-        {{ form | crispy }}
-        <div id = "div_id_tags_str">
-            <label for = "id_tags_str"> Tags:</label>
-            <input type="text" name="tags_str" id = "id_tags_str" class = "textinput textInput form-control" value = {{ tags_str_default }}>
-        </div>
+        <table>
+            {{ form | crispy }}
+            {% comment %} 태그 선택란 추가 {% endcomment %}
+            {% comment %} value = {{ tags_str_default }}: 포스트 수정 페이지를 열었을 때, 기존 태그가 자동으로 입력되도록 만듦 {% endcomment %}
+            {% comment %} <div id = "div_id_tags_str"> {% endcomment %}
+            <tr>
+                <th><label for = "id_tags_str"> Tags:</label></th>
+                <td><input type="text" name="tags_str" id = "id_tags_str" value = {{ tags_str_default }}></td>
+            </tr>
+            {% comment %} </div> {% endcomment %}
+        </table>
         <br/>
         <button type = "submit" class = "btn btn-design float-right"> 저장 </button>
     </form>

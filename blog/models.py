@@ -50,10 +50,10 @@ class Post(models.Model):
 
     # foreign 키로 author 필드 구현하기
     # on_delete = models.CASCADE: 이 포스트의 작성자가 데이터베이스에서 삭제될 경우, 이 포스트도 삭제하겠단 의미
+    author = models.ForeignKey(User, null = True, on_delete = models.SET_NULL)
+    
     # null = True: 카테고리가 미분류인 포스트도 있을 수 있도록 함(이전에 포스팅했던 것들)
     # blank = True: 카테고리 필수입력 요소가 아님
-    author = models.ForeignKey(User, null = True, on_delete = models.SET_NULL)
-
     category = models.ForeignKey(Category, null = True, blank = True, on_delete = models.SET_NULL)
 
     tags = models.ManyToManyField(Tag, blank = True)

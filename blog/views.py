@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post, Category, Tag
@@ -81,7 +81,7 @@ def tag_page(request, slug):
 # UserPassesTestMixin: 사용자의 등급을 부여하고 특정 사용자만 포스트 작성 페이지 접근이 가능하도록 지정할 수 있음
 class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
-    fields = ['title', 'hook_text','content','head_image','file_upload','category']
+    fields = ['title', 'hook_text','content','head_image','file_upload','category','tags']
 
     #지정 사용자인지, superuser인지 확인
     def test_func(self):
@@ -91,10 +91,11 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     # author 필드를 자동으로 채우기 위해 CreateView의 form_valid() 함수 활용
     ## form_valid()함수는 방문자가 폼에 담아 보낸 유효한 정보를 사용해 포스트를 만들고, 포스트의 고유 경로로 보내주는 역할을 함
     def form_vaild(self,form):
+        # self.request.user: 웹사이트 방문자
         current_user = self.request.user      
         #is_authenticated:현재 방문자가 로그인한 상태인지 확인
         if current_user.is_authenticated and (current_user.is_staff or current_user.is_superuser):
-            form.instance.author = current_user    #form에서 생성한 instance(새로생성포스트)의 author필드를 current_user을 담아라
+            form.instance.author = current_user    #form에서 생성한 instance(새로생성포스트)의 author필드에 current_user을 담아라
             
             #태그와 관련된 작업 하기 전에 createview의 form_valid() 함수의 결과값을 resposne에 임시로 담아둠
             response = super(PostCreate, self).form_valid(form)
@@ -105,7 +106,7 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             #값이 빈칸인 경우
             if tags_str:
                 tags_str = tags_str.strip()
-                tags_str = tags_str.relace(',',';')
+                tags_str = tags_str.replace(',',';')
                 tags_list = tags_str.split(';')
 
                 for t in tags_list:
@@ -126,7 +127,7 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         else:
             return redirect('/blog/')     #로그인하지 않은 상태면 /blog/ 경로로 돌려보냄
 
-    
+
     
 
 # CBV 방식으로 포스트를 수정할 수 있도록 PostUpdate 클래스 생성
@@ -143,15 +144,15 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
             tags_str_list = list()
             for t in self.object.tags.all():
                 tags_str_list.append(t.name)
-            context['tags_str_default'] = '; '.join(tags_str_list)
-
+            context['tags_str_default'] = ';'.join(tags_str_list)
         return context
 
     #dispatch(): 방문자가 웹사이트 서버에 get방식으로 요청했는지 post 방식으로 요청했는지 판단
     ## get: 포스트를 작성할 수 있는 폼 페이지 보내줌
     ## post: 같은 경로로 폼에 내용을 담아 post 방식으로 들어오면, 폼이 유효한지 확인하고 문제없으면 db에 저장
     def dispatch(self, request, *args, **kwargs):
-        #포스트의 작성자와 로그인한 유저와 동일할 시, dispatch()함수 작용
+        # 포스트의 작성자와 로그인한 유저와 동일할 시, dispatch()함수 작용
+        # self.get_object(): updateview의 메서드로 Post.objects.get(pk = pk)와 동일한 역할
         if request.user.is_authenticated and request.user == self.get_object().author:  
             return super(PostUpdate, self).dispatch(request, *args, **kwargs)
         else:
