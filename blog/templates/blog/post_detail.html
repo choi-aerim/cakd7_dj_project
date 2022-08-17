@@ -63,6 +63,8 @@
     <div class = "row">   
         <p>{{ post.get_content_markdown | safe }}</p><br>
     </div>
+
+
     {% comment %} 태그 달기 {% endcomment %}
     <div class = "row">   
         {% if post.tags.exists %}
@@ -71,11 +73,28 @@
             {% for tag in post.tags.all %}
                 <a href = "{{ tag.get_absoute_url }}" class = "badge badge-light"> {{ tag }}</a>
             {% endfor %}
-            <br/>
-            <br/>
+            
         {% endif %}
+
     </div>
+
+
+    {% comment %} 댓글 달기 {% endcomment %}
+    {% if post.comment_set.exists %}
+        {% for comment in post.comment_set.iterator %}
+        {% comment %} single_comment {% endcomment %}
+        <div class = "media mb-4" id = "comment - {{ comment.pk }}">
+            <img class = "d-flex mr-3 rounded-circle" src = "http://placehold.it/50x50" alt = "">
+            <div class = "media-body">
+                <h5 class = "mt-0">{{ comment.author.username }} &nbsp;&nbsp;<small class = "text-muted">{{ comment.created_at }}</small></h5>
+                <p>{{ comment.content | linebreaks }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+
 </div>
+<hr/>
 
 
 {% endblock %}

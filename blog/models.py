@@ -75,7 +75,20 @@ class Post(models.Model):
         return markdown(self.content)
 
 
+# 댓글창 달기
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete = models.CASCADE)
+    author = models.ForeignKey(User, on_delete = models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateField(auto_now_add = True)
+    modified_at = models.DateField(auto_now = True)
 
+    def __str__(self):
+        return f'{self.author}::{self.content}'
 
+    def get_absolute_url(self):
+        # #이 HTML 요소의 id를 의미함
+        # 웹브라우저가 해당 포스트의 페이지를 열고 comment -{self.pk}에 해당하는 위치로 이동함
+        return f'{self.post.get_absolute_url()}#comment - {self.pk}'
 
     
