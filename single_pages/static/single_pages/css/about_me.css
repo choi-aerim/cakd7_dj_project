@@ -1,0 +1,65 @@
+body{
+    margin: 0; padding: 0;
+}
+#nav-bar{
+    position: fixed;
+    left: 0; right: 0; top: 0;    
+    height: 50px;    
+    font-weight: 600;
+    font-size: large;
+    background-color: white;
+}
+#nav-bar a{
+    margin: 0 20px;
+    text-decoration: none;
+    color: gray;
+}
+#nav-bar a:hover{
+    color: black;
+    font-size: large;
+}
+
+#contents{
+position: relative;
+top: 70px; right: 0; left: 0; bottom: 50px;
+height: 900px;
+}
+.container .row{
+    margin: 50px;
+}
+#footer{
+    bottom: 0; right:0; left:0;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 500;
+    color: rgba(128, 128, 128, 0.783);
+    }
+.text-center{ 
+    text-align: center;
+}
+.position-center{
+    margin:0  50px ;
+}
+.main-hr{
+    border: 0;
+    height: 3px;
+    background:  rgba(201, 243, 166, 0.672);
+}
+.htag-line{
+    border-bottom: 3px solid rgba(201, 243, 166, 0.672);
+    border-left: 15px solid rgba(201, 243, 166, 0.672);
+    line-height: 200%;
+    padding: 0 20px;    
+}
+.htag-shadow1{
+    /* text-shadow: 1px 1px 1px rgb(162, 243, 95); */
+    /* color: rgba(201, 243, 166, 0.968); */
+    text-shadow: 2px 1px 1px rgba(128, 128, 128, 0.758);
+    color: black;
+    font-weight: 600;
+}
+.htag-shadow2{
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.758);
+    border-radius: 10px 0;
+    color: gray;
+}

@@ -34,13 +34,22 @@ body{
     height: 50%;
     background-color: rgba(201, 243, 166, 0.672);
 }
+
 h1{
     position: absolute;
-    top: 27%; left: 20%;
-    font-size: 5rem;
+    top: 26%; left: 200px;
+    font-size: 7rem;
     font-family: 'Times New Roman', Times, serif;
     font-weight: 700;
 }
+
+#left{
+    left: 0; top: 36%; 
+}
+#right{
+    right: 80%; top: 5%;
+}
+
 #footer{
     position: fixed;
     bottom: 0; right:0; left:0;

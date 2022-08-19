@@ -49,9 +49,11 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     
-    #블록, 싱글페이지
+    #블록, 싱글페이지, 프로그램, 머신러닝
     'blog',
     'single_pages',
+    'program',
+    'ml',
     
 ]
 

@@ -1,0 +1,24 @@
+{% extends 'program/base.html' %}
+{% block main_area %}
+
+<div class="row col-12">
+    <h1><b>Titanic 생존 예측</b></h1>
+</div>
+<div class="row col-12">
+    <form action = "result">{% csrf_token %} 
+
+            <b> fare 요소 입력:&nbsp;&nbsp;  </b> <input type = 'text' name = "fare_cat"><br/><br/>
+            <b> age 요소 입력:&nbsp;&nbsp; </b> <input type = 'text' name = "age_cat"><br/><br/>
+            <b> family 요소 입력:&nbsp;&nbsp;</b> <input type = 'text' name = "family"><br/><br/>
+            <b> sex_female 여부 입력:&nbsp;&nbsp;</b> <input type = 'text' name = "sex_female"><br/><br/>
+            <b> sex_male 여부 입력:&nbsp;&nbsp; </b> <input type = 'text' name = "sex_male"><br/><br/>
+            <b> embarked_C 여부 입력:&nbsp;&nbsp; </b> <input type = 'text' name = "embarked_C"><br/><br/>
+            <b> embarked_Q 여부 입력:&nbsp;&nbsp; </b> <input type = 'text' name = "embarked_Q"><br/><br/>
+            <b> embarked_S 여부 입력:&nbsp;&nbsp; </b> <input type = 'text' name = "embarked_S"><br/><br/>
+            <input class = "float-right" type="submit" value = "입력">
+ 
+        </div>
+    </form>
+</div>
+
+{% endblock %}

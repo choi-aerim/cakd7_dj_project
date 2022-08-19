@@ -1,0 +1,16 @@
+{% extends 'program/base.html' %}
+{% block main_area %}
+
+<div class="row col-12">
+    <h1><b>Add Programming</b></h1>
+</div>
+<div class="row col-12">
+    <form action = "result">{% csrf_token %} 
+        <b>a 요소 입력:&nbsp;&nbsp;  </b><input type = 'text' name = "a">
+        <b>b 요소 입력:&nbsp;&nbsp; </b><input type = 'text' name = "b">
+        <input type="submit" value = "입력">
+    </form>
+</div>
+
+
+{% endblock %}
